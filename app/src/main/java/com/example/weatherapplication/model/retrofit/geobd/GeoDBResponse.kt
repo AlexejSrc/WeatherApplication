@@ -11,22 +11,10 @@ data class GeoDBResponse(
 
 data class CityDataItem(
 
-	@field:SerializedName("country")
-	val country: String? = null,
-
 	@field:SerializedName("city")
-	val city: String? = null,
+	val name: String,
 
 	@field:SerializedName("countryCode")
-	val countryCode: String? = null,
-
-	@field:SerializedName("name")
-	val name: String? = null,
-
-	@field:SerializedName("id")
-	val id: Int? = null,
-
-	@field:SerializedName("type")
-	val type: String? = null
+	val countryCode: String
 
 )

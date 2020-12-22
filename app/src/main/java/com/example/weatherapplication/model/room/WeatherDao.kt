@@ -5,15 +5,15 @@ import androidx.room.*
 @Dao
 interface WeatherDao{
 
-    @Query("Select * from WeatherInCityEntity where id = :id")
-    fun getWeatherById(id: Int): WeatherInCityEntity
+    @Query("Select * from WeatherInCityEntity where city = :cityName and countryCode = :countryCode")
+    suspend fun getWeatherByName(cityName: String, countryCode: String): WeatherInCityEntity
 
     @Update
-    fun updateWeather(entity: WeatherInCityEntity)
+    suspend fun updateWeather(entity: WeatherInCityEntity)
 
     @Delete
-    fun deleteWeather(entity: WeatherInCityEntity)
+    suspend fun deleteWeather(entity: WeatherInCityEntity)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertWeather(entity: WeatherInCityEntity)
+    suspend fun insertWeather(entity: WeatherInCityEntity)
 }

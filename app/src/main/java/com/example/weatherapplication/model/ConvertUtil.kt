@@ -7,7 +7,6 @@ import com.example.weatherapplication.model.room.WeatherInCityEntity
 
 fun convertFromOpenWeatherToRoomEntity(response: OpenWeatherResponse): WeatherInCityEntity{
     return WeatherInCityEntity(
-        response.id,
         response.name,
         response.sys.country,
         response.clouds?.all,

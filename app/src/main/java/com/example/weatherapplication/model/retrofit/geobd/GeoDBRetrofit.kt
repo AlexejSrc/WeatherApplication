@@ -2,15 +2,11 @@ package com.example.weatherapplication.model.retrofit.geobd
 
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import javax.inject.Inject
 
-class GeoDBRetrofit {
+class GeoDBRetrofit @Inject constructor() {
 
-    val geoDbClient = Retrofit
-        .Builder()
-        .baseUrl("https://wft-geo-db.p.rapidapi.com")
-        .addConverterFactory(GsonConverterFactory.create())
-        .build()
-        .create(GeoDBApi::class.java)
+    @Inject lateinit var geoDbClient: GeoDBApi
 
     suspend fun getCity(query: String): GeoDBResponse {
         return try {

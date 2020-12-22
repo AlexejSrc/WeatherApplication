@@ -4,15 +4,13 @@ import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity
+@Entity(primaryKeys = ["city","countryCode"])
 data class WeatherInCityEntity(
-    @PrimaryKey val id: Int,
     val city: String,
     val countryCode: String,
     val clouds: Int?,
     @Embedded val temperature: Temperature?,
     @Embedded val weather: Weather?
-
 )
 
 data class Temperature(

@@ -30,7 +30,7 @@ class RoomDBTest {
                     weatherResponse
                 )
             database.weatherDao.insertWeather(entity)
-            val entity2 = database.weatherDao.getWeatherById(entity.id)
+            val entity2 = database.weatherDao.getWeatherByName(entity.city, entity.countryCode)
             assert(entity == entity2)
         }
     }
