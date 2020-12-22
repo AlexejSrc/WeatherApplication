@@ -17,7 +17,7 @@ data class OpenWeatherResponse(
 	val clouds: Clouds? = null,
 
 	@field:SerializedName("sys")
-	val sys: Sys? = null,
+	val sys: Sys,
 
 	@field:SerializedName("dt")
 	val dt: Int? = null,
@@ -29,13 +29,13 @@ data class OpenWeatherResponse(
 	val weather: List<WeatherItem?>? = null,
 
 	@field:SerializedName("name")
-	val name: String? = null,
+	val name: String,
 
 	@field:SerializedName("cod")
 	val cod: Int? = null,
 
 	@field:SerializedName("id")
-	val id: Int? = null,
+	val id: Int,
 
 	@field:SerializedName("base")
 	val base: String? = null,
@@ -47,7 +47,7 @@ data class OpenWeatherResponse(
 data class Sys(
 
 	@field:SerializedName("country")
-	val country: String? = null,
+	val country: String,
 
 	@field:SerializedName("sunrise")
 	val sunrise: Int? = null,

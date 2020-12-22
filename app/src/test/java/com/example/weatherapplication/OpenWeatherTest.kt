@@ -11,7 +11,7 @@ class OpenWeatherTest{
 
     @Test
     fun checkIfResponseExist() = runBlocking {
-        val response = geoDbRetrofit.getCity("Mosc").data[0] ?: return@runBlocking
+        val response = geoDbRetrofit.getCity("Mosc").data[1] ?: return@runBlocking
         val weatherResponse = openWeatherRetrofit.getWeather(response)
         assert(weatherResponse.weather?.isNotEmpty() == true)
     }
