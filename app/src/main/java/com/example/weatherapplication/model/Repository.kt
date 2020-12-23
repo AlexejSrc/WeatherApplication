@@ -14,10 +14,22 @@ class Repository @Inject constructor(){
         return database.weatherDao.getWeatherByName(item.name, item.countryCode)
     }
 
-    suspend fun getEntityFromRetrofit(item: CityDataItem): WeatherInCityEntity{
+    suspend fun getEntityFromNetwork(item: CityDataItem): WeatherInCityEntity{
+        val apiResponse = openWeatherRetrofit.getWeather(item)
+        return convertFromOpenWeatherToRoomEntity(apiResponse)
+    }
+
+    suspend fun loadNewEntityToDatabase(item: CityDataItem){
         val apiResponse = openWeatherRetrofit.getWeather(item)
         val convertedEntity = convertFromOpenWeatherToRoomEntity(apiResponse)
         database.weatherDao.insertWeather(convertedEntity)
-        return convertedEntity
+    }
+
+    suspend fun removeEntityFromDatabase(item: WeatherInCityEntity){
+        database.weatherDao.deleteWeather(item)
+    }
+
+    suspend fun getAllWeatherFromDatabase(): List<WeatherInCityEntity>{
+        return database.weatherDao.getAllWeather()
     }
 }

@@ -5,6 +5,9 @@ import androidx.room.*
 @Dao
 interface WeatherDao{
 
+    @Query("Select * from WeatherInCityEntity")
+    suspend fun getAllWeather(): List<WeatherInCityEntity>
+
     @Query("Select * from WeatherInCityEntity where city = :cityName and countryCode = :countryCode")
     suspend fun getWeatherByName(cityName: String, countryCode: String): WeatherInCityEntity
 

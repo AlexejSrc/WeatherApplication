@@ -1,38 +1,41 @@
 package com.example.weatherapplication.view.fragment
 
-import android.annotation.SuppressLint
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import com.bumptech.glide.Glide
+import com.example.weatherapplication.MyApplication
 import com.example.weatherapplication.R
+import com.example.weatherapplication.model.retrofit.geobd.CityDataItem
 import com.example.weatherapplication.model.room.WeatherInCityEntity
 import com.example.weatherapplication.viewmodel.CurrentWeatherViewModel
-import kotlinx.android.synthetic.main.fragment_weather_display.*
-import java.util.*
+import kotlinx.android.synthetic.main.fragment_weather_display_layout.*
 
 
 class WeatherDisplayFragment : Fragment() {
-    private val viewModel: CurrentWeatherViewModel by viewModels()
+    private val viewModel: CurrentWeatherViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_weather_display, container, false)
+        return inflater.inflate(R.layout.fragment_weather_display_layout, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        MyApplication.component.inject(viewModel)
+
         viewModel.getCurrentWeather().observe(viewLifecycleOwner,
             Observer {
                 setFragment(it)
             })
+        viewModel.updateCurrentWeather(CityDataItem("Moscow", "RU"))
     }
 
     fun setFragment(entity: WeatherInCityEntity?){

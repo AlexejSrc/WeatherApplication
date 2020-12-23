@@ -1,6 +1,5 @@
 package com.example.weatherapplication.view.fragment
 
-import android.content.Context
 import com.example.weatherapplication.R
 
 fun fromCodeToDrawable(code: String?): Int{

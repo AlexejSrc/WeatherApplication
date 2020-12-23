@@ -11,7 +11,7 @@ import dagger.android.AndroidInjector
 import javax.inject.Singleton
 
 @Singleton
-@Component(modules = [AndroidInjectionModule::class, AppModule::class])
+@Component(modules = [AndroidInjectionModule::class, AppModule::class, RoomModule::class, RetrofitModule::class])
 interface ApplicationComponent : AndroidInjector<MyApplication> {
 
     fun provideApplicationContext(): Context

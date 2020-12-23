@@ -1,6 +1,8 @@
 package com.example.weatherapplication.model.retrofit.geobd
 
-import retrofit2.http.*
+import retrofit2.http.GET
+import retrofit2.http.Headers
+import retrofit2.http.Query
 
 interface GeoDBApi {
     @Headers(apiKey)

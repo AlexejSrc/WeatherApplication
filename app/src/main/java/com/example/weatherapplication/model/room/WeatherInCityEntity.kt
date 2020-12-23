@@ -2,7 +2,6 @@ package com.example.weatherapplication.model.room
 
 import androidx.room.Embedded
 import androidx.room.Entity
-import androidx.room.PrimaryKey
 
 @Entity(primaryKeys = ["city","countryCode"])
 data class WeatherInCityEntity(
