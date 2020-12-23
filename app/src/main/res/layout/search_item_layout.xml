@@ -18,7 +18,7 @@
         android:id="@+id/search_item_country_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="@id/search_item_city_name"
+        app:layout_constraintTop_toBottomOf="@id/search_item_city_name"
         app:layout_constraintStart_toStartOf="@id/search_item_city_name"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"

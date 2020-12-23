@@ -11,7 +11,7 @@ import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.example.weatherapplication.R
-import com.example.weatherapplication.view.fragment.SearchBottomSheetDialog
+import com.example.weatherapplication.view.fragment.bottomsheetdialog.SearchBottomSheetDialog
 import com.example.weatherapplication.viewmodel.CurrentWeatherViewModel
 
 
@@ -21,6 +21,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        viewModel.updateWeatherList()
         checkLocationPermission()
     }
 

@@ -4,12 +4,6 @@ import com.google.gson.annotations.SerializedName
 
 data class OpenWeatherResponse(
 
-	@field:SerializedName("visibility")
-	val visibility: Int? = null,
-
-	@field:SerializedName("timezone")
-	val timezone: Int? = null,
-
 	@field:SerializedName("main")
 	val main: Main? = null,
 
@@ -19,50 +13,22 @@ data class OpenWeatherResponse(
 	@field:SerializedName("sys")
 	val sys: Sys,
 
-	@field:SerializedName("dt")
-	val dt: Int? = null,
-
-	@field:SerializedName("coord")
-	val coord: Coord? = null,
-
 	@field:SerializedName("weather")
 	val weather: List<WeatherItem?>? = null,
 
 	@field:SerializedName("name")
-	val name: String,
+	val name: String
 
-	@field:SerializedName("cod")
-	val cod: Int? = null,
-
-	@field:SerializedName("id")
-	val id: Int,
-
-	@field:SerializedName("base")
-	val base: String? = null,
-
-	@field:SerializedName("wind")
-	val wind: Wind? = null
-)
+){
+	companion object{
+		val default = OpenWeatherResponse(null, null, Sys(""), null, "")
+	}
+}
 
 data class Sys(
 
 	@field:SerializedName("country")
-	val country: String,
-
-	@field:SerializedName("sunrise")
-	val sunrise: Int? = null,
-
-	@field:SerializedName("sunset")
-	val sunset: Int? = null,
-
-	@field:SerializedName("id")
-	val id: Int? = null,
-
-	@field:SerializedName("type")
-	val type: Int? = null,
-
-	@field:SerializedName("message")
-	val message: Double? = null
+	val country: String
 )
 
 data class Clouds(
@@ -80,28 +46,7 @@ data class WeatherItem(
 	val description: String? = null,
 
 	@field:SerializedName("main")
-	val main: String? = null,
-
-	@field:SerializedName("id")
-	val id: Int? = null
-)
-
-data class Wind(
-
-	@field:SerializedName("deg")
-	val deg: Int? = null,
-
-	@field:SerializedName("speed")
-	val speed: Double? = null
-)
-
-data class Coord(
-
-	@field:SerializedName("lon")
-	val lon: Double? = null,
-
-	@field:SerializedName("lat")
-	val lat: Double? = null
+	val main: String? = null
 )
 
 data class Main(

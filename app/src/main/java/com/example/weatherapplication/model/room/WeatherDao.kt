@@ -17,6 +17,9 @@ interface WeatherDao{
     @Delete
     suspend fun deleteWeather(entity: WeatherInCityEntity)
 
+    @Query("Delete from WeatherInCityEntity where city = :city and countryCode = :countryCode")
+    suspend fun deleteWeather(city: String, countryCode: String)
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertWeather(entity: WeatherInCityEntity)
 }

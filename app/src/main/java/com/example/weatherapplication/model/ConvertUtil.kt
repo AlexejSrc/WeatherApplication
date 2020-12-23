@@ -1,11 +1,13 @@
 package com.example.weatherapplication.model
 
+import com.example.weatherapplication.model.retrofit.geobd.CityDataItem
 import com.example.weatherapplication.model.retrofit.openweather.OpenWeatherResponse
 import com.example.weatherapplication.model.room.Temperature
 import com.example.weatherapplication.model.room.Weather
 import com.example.weatherapplication.model.room.WeatherInCityEntity
 
 fun convertFromOpenWeatherToRoomEntity(response: OpenWeatherResponse): WeatherInCityEntity{
+    if (response==OpenWeatherResponse.default) return WeatherInCityEntity.default
     return WeatherInCityEntity(
         response.name,
         response.sys.country,
@@ -29,3 +31,7 @@ fun convertFromOpenWeatherToRoomEntity(response: OpenWeatherResponse): WeatherIn
         }
     )
 }
+
+fun convertAdapterItemToCityDataItem(adapterItem: SearchAdapterItem) = CityDataItem(adapterItem.city, adapterItem.countryCode)
+
+fun convertEntityToCityDataItem(entity: WeatherInCityEntity) = CityDataItem(entity.city, entity.countryCode)

@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 data class GeoDBResponse(
 
 	@field:SerializedName("data")
-	val data: List<CityDataItem?>
+	val data: List<CityDataItem>
 
 )
 

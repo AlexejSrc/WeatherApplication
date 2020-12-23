@@ -1,4 +1,10 @@
 <resources>
     <string name="app_name">WeatherApplication</string>
     <string name="search">Search</string>
+    <string name="country">Country: %s</string>
+    <string name="temperature_info">
+        Average temperature: %d° / %d°\nHumidity: %d%%\nClouds: %d%%\nPressure: %d hPa</string>
+    <string name="no_data">There is no corresponding data in the api</string>
+    <string name="no_connection">There is no connection to the api</string>
+    <string name="favorite_list_is_empty">Favorite list is empty</string>
 </resources>

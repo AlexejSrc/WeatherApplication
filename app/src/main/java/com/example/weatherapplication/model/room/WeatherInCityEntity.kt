@@ -10,7 +10,11 @@ data class WeatherInCityEntity(
     val clouds: Int?,
     @Embedded val temperature: Temperature?,
     @Embedded val weather: Weather?
-)
+){
+    companion object{
+        val default = WeatherInCityEntity("", "", null, null, null)
+    }
+}
 
 data class Temperature(
     val temp: Double?,
