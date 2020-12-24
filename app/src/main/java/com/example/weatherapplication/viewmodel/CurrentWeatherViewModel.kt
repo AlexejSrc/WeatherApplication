@@ -180,6 +180,7 @@ class CurrentWeatherViewModel : ViewModel(){
     private var searchFor = ""
     fun getQueryWithDelay(query: String, delayTime: Long = 700, minChars: Int = 4) = viewModelScope.launch(IO) {
         if (query.length >= minChars) {
+            if (query==searchFor){return@launch}
             searchFor = query
             delay(delayTime/2)  //debounce timeOut
             setLoadingState()
