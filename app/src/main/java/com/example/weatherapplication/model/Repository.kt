@@ -29,7 +29,6 @@ class Repository @Inject constructor(){
         apiResponse?.let {
             if (apiResponse != OpenWeatherResponse.default){
                 database.weatherDao.insertWeather(convertFromOpenWeatherToRoomEntity(apiResponse))
-
             }
         }
         return apiResponse

@@ -7,12 +7,18 @@ import com.example.weatherapplication.view.adapter.SwipeCallback
 import com.example.weatherapplication.viewmodel.CurrentWeatherViewModel
 import dagger.BindsInstance
 import dagger.Component
-import dagger.android.AndroidInjectionModule
 import dagger.android.AndroidInjector
+import dagger.android.support.AndroidSupportInjectionModule
 import javax.inject.Singleton
 
 @Singleton
-@Component(modules = [AndroidInjectionModule::class, AppModule::class, RoomModule::class, RetrofitModule::class])
+@Component(modules = [
+    AndroidSupportInjectionModule::class,
+    AppModule::class,
+    RoomModule::class,
+    RetrofitModule::class,
+    ActivityModule::class,
+    ActivityDependencyModule::class])
 interface ApplicationComponent : AndroidInjector<MyApplication> {
 
     fun provideApplicationContext(): Context

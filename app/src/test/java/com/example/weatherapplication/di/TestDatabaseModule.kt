@@ -3,6 +3,7 @@ package com.example.weatherapplication.di
 import android.content.Context
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
+import com.example.weatherapplication.model.retrofit.geobd.CityDataItem
 import com.example.weatherapplication.model.room.ApplicationDatabase
 import dagger.Module
 import dagger.Provides
@@ -19,4 +20,8 @@ class TestDatabaseModule{
     @Singleton
     @Provides
     fun provideContext() = ApplicationProvider.getApplicationContext<Context>()
+
+    @Singleton
+    @Provides
+    fun provideDummyCityItem() = CityDataItem("Moscow", "RU")
 }

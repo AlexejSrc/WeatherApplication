@@ -11,7 +11,6 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import com.example.weatherapplication.R
 import com.example.weatherapplication.model.retrofit.geobd.CityDataItem
@@ -21,20 +20,20 @@ import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
+import dagger.android.support.DaggerAppCompatActivity
 import java.util.*
+import javax.inject.Inject
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : DaggerAppCompatActivity() {
+    @Inject lateinit var geocoder: Geocoder
     private val REQUEST_CODE_FOREGROUND: Int = 333
     private val viewModel: CurrentWeatherViewModel by viewModels()
-    private lateinit var geocoder: Geocoder
     private var permissionWasNotRequested = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        val locale = Locale.Builder().setLanguage("en").setRegion("US").build()
-        geocoder = Geocoder(this, locale)
         viewModel.checkListAndCurrentItem()
         registerForActivityResult()
         permissionWasNotRequested = savedInstanceState?.getBoolean(PERMISSION_WAS_NOT_REQUESTED) ?: true

@@ -1,8 +1,6 @@
 package com.example.weatherapplication.di
 
-import com.example.weatherapplication.GeoDBTest
-import com.example.weatherapplication.OpenWeatherTest
-import com.example.weatherapplication.RoomDBTest
+import com.example.weatherapplication.*
 import com.example.weatherapplication.model.Repository
 import com.example.weatherapplication.model.retrofit.geobd.GeoDBRetrofit
 import com.example.weatherapplication.model.retrofit.openweather.OpenWeatherRetrofit
@@ -19,4 +17,5 @@ interface TestComponent {
     fun inject(geoDBTest: GeoDBTest)
     fun inject(openWeatherTest: OpenWeatherTest)
     fun inject(roomDBTest: RoomDBTest)
+    fun inject(repositoryTest: RepositoryTest)
 }

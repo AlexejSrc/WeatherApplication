@@ -26,6 +26,7 @@ class SearchBottomSheetDialog : BaseBottomSheetDialog(){
     override lateinit var mBehavior: BottomSheetBehavior<*>
     lateinit var adapter: SearchDialogAdapter
     lateinit var dialogView: View
+
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog = super.onCreateDialog(savedInstanceState) as BottomSheetDialog
         dialogView = View.inflate(context, R.layout.search_bottom_sheet_layout, null)

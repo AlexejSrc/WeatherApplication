@@ -89,8 +89,6 @@ class CurrentWeatherViewModel : ViewModel(){
         }
     }
 
-
-
     fun addToFavouritesFromSearch(item: SearchAdapterItem, syncCallback: ()->Unit){
         viewModelScope.launch(IO) {
             val response = repository.loadNewEntityToDatabase(convertAdapterItemToCityDataItem(item))
