@@ -2,10 +2,14 @@ package com.example.weatherapplication.view.activity
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Geocoder
 import android.location.Location
+import android.location.LocationManager
 import android.os.Bundle
+import android.provider.Settings
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
@@ -35,7 +39,6 @@ class MainActivity : DaggerAppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         viewModel.checkListAndCurrentItem()
-        registerForActivityResult()
         permissionWasNotRequested = savedInstanceState?.getBoolean(PERMISSION_WAS_NOT_REQUESTED) ?: true
         if (permissionWasNotRequested) {
             checkLocationPermission()
@@ -63,18 +66,29 @@ class MainActivity : DaggerAppCompatActivity() {
             ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), REQUEST_CODE_FOREGROUND)
         }
     }
+
     private fun hasLocationPermission() = ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
 
-    private fun registerForActivityResult(){
-        registerForActivityResult(ActivityResultContracts.RequestPermission()) {granted ->
-            if (granted && hasLocationPermission()){
-                loadDataFromLocation()
-            }
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (hasLocationPermission()){
+            loadDataFromLocation()
+        }
+    }
+
+    private fun requestEnablingOfLocation(){
+        if (!(getSystemService(Context.LOCATION_SERVICE) as LocationManager).isProviderEnabled(LocationManager.GPS_PROVIDER)){
+            startActivity(Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS))
         }
     }
 
     @SuppressLint("MissingPermission")
     fun loadDataFromLocation(){
+        requestEnablingOfLocation()
         LocationServices.getFusedLocationProviderClient(this).requestLocationUpdates(
                 LocationRequest.create().apply {
                     priority = LocationRequest.PRIORITY_HIGH_ACCURACY
