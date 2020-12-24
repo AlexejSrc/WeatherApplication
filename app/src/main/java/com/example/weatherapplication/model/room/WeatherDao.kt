@@ -9,7 +9,7 @@ interface WeatherDao{
     suspend fun getAllWeather(): List<WeatherInCityEntity>
 
     @Query("Select * from WeatherInCityEntity where city = :cityName and countryCode = :countryCode")
-    suspend fun getWeatherByName(cityName: String, countryCode: String): WeatherInCityEntity
+    suspend fun getWeatherByName(cityName: String, countryCode: String): WeatherInCityEntity?
 
     @Update
     suspend fun updateWeather(entity: WeatherInCityEntity)

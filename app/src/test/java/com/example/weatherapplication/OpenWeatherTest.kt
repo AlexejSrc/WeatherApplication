@@ -1,18 +1,24 @@
 package com.example.weatherapplication
 
+import com.example.weatherapplication.di.DaggerTestComponent
 import com.example.weatherapplication.model.retrofit.geobd.GeoDBRetrofit
 import com.example.weatherapplication.model.retrofit.openweather.OpenWeatherRetrofit
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
 import org.junit.Test
+import javax.inject.Inject
 
-class OpenWeatherTest{
-    val geoDbRetrofit = GeoDBRetrofit()
-    val openWeatherRetrofit = OpenWeatherRetrofit()
-
+class OpenWeatherTest {
+    @Inject lateinit var geoDbRetrofit: GeoDBRetrofit
+    @Inject lateinit var openWeatherRetrofit: OpenWeatherRetrofit
+    init {
+        DaggerTestComponent.create().inject(this)
+    }
     @Test
     fun checkIfResponseExist() = runBlocking {
-        val response = geoDbRetrofit.getCity("Mosc").data[1] ?: return@runBlocking
+        delay(1000)
+        val response = geoDbRetrofit.getCity("Mosc")?.data?.get(1) ?: return@runBlocking
         val weatherResponse = openWeatherRetrofit.getWeather(response)
-        assert(weatherResponse.weather?.isNotEmpty() == true)
+        assert(weatherResponse?.weather?.isNotEmpty() == true)
     }
 }

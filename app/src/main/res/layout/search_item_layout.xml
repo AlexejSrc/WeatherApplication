@@ -2,7 +2,12 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/item_background"
+    android:layout_marginTop="4dp"
+    android:layout_marginBottom="4dp"
+    android:layout_marginStart="4dp"
+    android:layout_marginEnd="4dp">
 
     <TextView
         android:id="@+id/search_item_city_name"
@@ -30,10 +35,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:background="#FFFFFF"
         android:id="@+id/search_item_star_button"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginEnd="0dp"
+        android:layout_marginRight="0dp"
         android:src="@drawable/not_in_favourites_icon">
     </ImageButton>
 </androidx.constraintlayout.widget.ConstraintLayout>

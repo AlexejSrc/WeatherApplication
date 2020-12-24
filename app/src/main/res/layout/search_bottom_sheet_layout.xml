@@ -13,6 +13,16 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="8dp">
+        <ProgressBar
+            android:id="@+id/search_sheet_progress_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:visibility="gone">
+        </ProgressBar>
 
         <EditText
             android:id="@+id/search_sheet_edit_text"
@@ -27,7 +37,7 @@
             android:background="@drawable/rounded_edittext"
             android:ems="10"
             android:hint="Search"
-            android:inputType="textPersonName"
+            android:digits="abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ"
             android:paddingLeft="8dp"
             app:layout_constraintBottom_toTopOf="@id/search_sheet_recycler_view"
             app:layout_constraintEnd_toStartOf="@+id/search_sheet_search_button"

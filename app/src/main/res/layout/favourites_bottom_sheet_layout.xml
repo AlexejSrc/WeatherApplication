@@ -12,10 +12,32 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
+                <ProgressBar
+                    android:id="@+id/fragment_favourites_progress_bar"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"/>
+                <TextView
+                    android:id="@+id/favourites_sheet_title"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:text="@string/favourites_sheet_title_text"
+                    android:textSize="22sp"
+                    android:layout_marginTop="8dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                </TextView>
                 <androidx.recyclerview.widget.RecyclerView
+                    app:layout_constraintTop_toBottomOf="@id/favourites_sheet_title"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     android:id="@+id/favourites_sheet_recycler_view"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="0dp"
                     android:layout_marginTop="8dp"
                     android:paddingBottom="32dp" />
                 <TextView

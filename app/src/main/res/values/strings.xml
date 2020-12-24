@@ -7,4 +7,8 @@
     <string name="no_data">There is no corresponding data in the api</string>
     <string name="no_connection">There is no connection to the api</string>
     <string name="favorite_list_is_empty">Favorite list is empty</string>
+    <string name="you_havent_selected">You haven\'t selected anything</string>
+    <string name="enter_your_query">Enter your query in the field</string>
+    <string name="favourites_sheet_title_text">Cities in the favorites</string>
+    <string name="unable_to_add">Unable to add an item to favorites, due to the fact that it is missing in the api.</string>
 </resources>

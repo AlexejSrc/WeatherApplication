@@ -2,6 +2,7 @@ package com.example.weatherapplication.model
 
 import com.example.weatherapplication.model.retrofit.geobd.CityDataItem
 import com.example.weatherapplication.model.retrofit.geobd.GeoDBRetrofit
+import com.example.weatherapplication.model.retrofit.openweather.OpenWeatherResponse
 import com.example.weatherapplication.model.retrofit.openweather.OpenWeatherRetrofit
 import com.example.weatherapplication.model.room.ApplicationDatabase
 import com.example.weatherapplication.model.room.WeatherInCityEntity
@@ -12,7 +13,7 @@ class Repository @Inject constructor(){
     @Inject lateinit var openWeatherRetrofit: OpenWeatherRetrofit
     @Inject lateinit var geoDbRetrofit: GeoDBRetrofit
 
-    suspend fun getEntityFromDatabase(item: CityDataItem): WeatherInCityEntity {
+    suspend fun getEntityFromDatabase(item: CityDataItem): WeatherInCityEntity? {
         return database.weatherDao.getWeatherByName(item.name, item.countryCode)
     }
 
@@ -23,13 +24,15 @@ class Repository @Inject constructor(){
         } ?: return null
     }
 
-    suspend fun loadNewEntityToDatabase(item: CityDataItem): Boolean{
+    suspend fun loadNewEntityToDatabase(item: CityDataItem): OpenWeatherResponse?{
         val apiResponse = openWeatherRetrofit.getWeather(item)
         apiResponse?.let {
-            database.weatherDao.insertWeather(convertFromOpenWeatherToRoomEntity(apiResponse))
-            return true
+            if (apiResponse != OpenWeatherResponse.default){
+                database.weatherDao.insertWeather(convertFromOpenWeatherToRoomEntity(apiResponse))
+
+            }
         }
-        return false
+        return apiResponse
     }
 
     suspend fun removeEntityFromDatabase(item: CityDataItem){

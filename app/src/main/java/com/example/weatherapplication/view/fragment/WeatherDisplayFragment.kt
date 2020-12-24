@@ -7,13 +7,11 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.example.weatherapplication.MyApplication
 import com.example.weatherapplication.R
-import com.example.weatherapplication.view.fragment.bottomsheetdialog.FavouritesBottomSheetDialog
-import com.example.weatherapplication.model.retrofit.geobd.CityDataItem
 import com.example.weatherapplication.model.room.WeatherInCityEntity
+import com.example.weatherapplication.view.fragment.bottomsheetdialog.FavouritesBottomSheetDialog
 import com.example.weatherapplication.viewmodel.CurrentWeatherViewModel
 import kotlinx.android.synthetic.main.fragment_weather_display_layout.*
 
@@ -31,16 +29,20 @@ class WeatherDisplayFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         MyApplication.component.inject(viewModel)
-        viewModel.getCurrentWeather().observe(viewLifecycleOwner,
-            Observer {
-                setFragment(it)
-            })
+        setOnClickListeners()
+        setLiveDataObservers()
+    }
+
+    private fun setOnClickListeners(){
         fragment_weather_all_favourites.setOnClickListener {
             launchFavouritesFragment()
         }
         fragment_weather_favourites_button.setOnClickListener {
             viewModel.changeCurrentItemFavourites()
         }
+    }
+
+    private fun setLiveDataObservers(){
         viewModel.getItemInFavourites().observe(viewLifecycleOwner, Observer {
             if(it){
                 fragment_weather_favourites_button.setImageDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.in_favourites_icon))
@@ -49,14 +51,24 @@ class WeatherDisplayFragment : Fragment() {
                 fragment_weather_favourites_button.setImageDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.not_in_favourites_icon))
             }
         })
-        viewModel.updateCurrentWeather(CityDataItem("Moscow", "RU"))
+        viewModel.getCurrentWeatherStateAction().observe(viewLifecycleOwner,
+                Observer {
+                    setFragment(it)
+                })
+        viewModel.getCurrentWeather().observe(viewLifecycleOwner,
+                Observer {
+                    setFragment(it)
+                })
     }
 
-    private fun setFragment(entity: WeatherInCityEntity?){
-        when(entity){
-            WeatherInCityEntity.default-> setEmptyFragmentState()
-            null-> setNoConnectionState()
-            else-> setDataInFragment(entity)
+    private fun setFragment(states: WeatherDisplayFragmentStates?){
+        when(states){
+            is WeatherDisplayFragmentStates.GotElement -> setDataInFragment(states.weatherInCityEntity)
+            WeatherDisplayFragmentStates.InitialState -> setInitialState()
+            WeatherDisplayFragmentStates.NoElement-> setEmptyFragmentState()
+            WeatherDisplayFragmentStates.Loading-> showLoading()
+            WeatherDisplayFragmentStates.NoConnection->setNoConnectionState()
+            null -> hideLoading()
         }
     }
 
@@ -70,6 +82,10 @@ class WeatherDisplayFragment : Fragment() {
         main_fragment_info.text = resources.getString(R.string.no_connection)
     }
 
+    private fun setInitialState(){
+        setAllViewsInvisible()
+        main_fragment_info.text = resources.getString(R.string.you_havent_selected)
+    }
 
     private fun setDataInFragment(entity: WeatherInCityEntity){
         setAllViewsVisible()
@@ -105,8 +121,18 @@ class WeatherDisplayFragment : Fragment() {
 
     private fun launchFavouritesFragment(){
         activity?.supportFragmentManager?.let {
-            FavouritesBottomSheetDialog().show(it, "favourites_dialog")
+            if (it.findFragmentByTag("favourites_dialog") == null){
+                FavouritesBottomSheetDialog().show(it, "favourites_dialog")
+            }
         }
+    }
 
+    private fun showLoading(){
+        fragment_weather_progress_bar.visibility = View.VISIBLE
+        main_fragment_info.visibility = View.INVISIBLE
+    }
+
+    private fun hideLoading(){
+        fragment_weather_progress_bar.visibility = View.GONE
     }
 }

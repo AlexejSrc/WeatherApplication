@@ -36,8 +36,6 @@ class SearchDialogAdapter(val callback: SearchDialogAdapterCallback) : ListAdapt
                 else{
                     callback.onAddItem(item)
                 }
-                item.isInFavourites = !item.isInFavourites
-                notifyDataSetChanged()
             }
             itemView.setOnClickListener {
                 callback.onOpenItem(item)
