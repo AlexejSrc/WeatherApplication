@@ -2,8 +2,8 @@ package com.example.weatherapplication.view.fragment.bottomsheetdialog
 
 import android.app.Dialog
 import android.os.Bundle
-import android.util.Log
 import android.view.View
+import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -54,7 +54,7 @@ class SearchBottomSheetDialog : BaseBottomSheetDialog(){
         })
     }
 
-    private fun initFocus(){
+    private fun showKeyboard(){
         dialogView.search_sheet_edit_text.requestFocus()
         val imm: InputMethodManager? = getSystemService(dialogView.context, InputMethodManager::class.java)
         imm?.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY)
@@ -62,8 +62,7 @@ class SearchBottomSheetDialog : BaseBottomSheetDialog(){
 
     private fun hideKeyboard(){
         dialogView.search_sheet_edit_text.clearFocus()
-        val imm: InputMethodManager? = getSystemService(dialogView.context, InputMethodManager::class.java)
-        imm?.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0)
+        activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN)
     }
 
     private fun initRecycler(){
@@ -98,7 +97,7 @@ class SearchBottomSheetDialog : BaseBottomSheetDialog(){
     private fun checkIfDestroyedBySystem(bundle: Bundle?){
         if (bundle?.getBoolean(DESTROYED_BY_SYSTEM) != true){
             viewModel.clearSearchData()
-            initFocus()
+            showKeyboard()
         }
     }
 

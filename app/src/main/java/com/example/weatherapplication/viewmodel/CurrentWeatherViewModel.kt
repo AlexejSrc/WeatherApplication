@@ -1,6 +1,5 @@
 package com.example.weatherapplication.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -14,8 +13,11 @@ import com.example.weatherapplication.model.room.WeatherInCityEntity
 import com.example.weatherapplication.view.fragment.WeatherDisplayFragmentStates
 import com.example.weatherapplication.view.fragment.bottomsheetdialog.FavouritesBottomSheetStates
 import com.example.weatherapplication.view.fragment.bottomsheetdialog.SearchBottomSheetStates
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class CurrentWeatherViewModel : ViewModel(){

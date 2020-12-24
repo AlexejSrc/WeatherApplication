@@ -13,7 +13,6 @@ import android.provider.Settings
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.core.app.ActivityCompat
 import com.example.weatherapplication.R
@@ -25,7 +24,6 @@ import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
 import dagger.android.support.DaggerAppCompatActivity
-import java.util.*
 import javax.inject.Inject
 
 

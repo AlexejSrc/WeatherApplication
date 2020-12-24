@@ -5,7 +5,6 @@ import com.example.weatherapplication.model.retrofit.geobd.CityDataItem
 import com.example.weatherapplication.model.retrofit.geobd.GeoDBRetrofit
 import com.example.weatherapplication.model.retrofit.openweather.OpenWeatherResponse
 import com.example.weatherapplication.model.retrofit.openweather.OpenWeatherRetrofit
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
 import org.junit.Test
 import javax.inject.Inject
