@@ -2,6 +2,7 @@ package com.example.weatherapplication.view.fragment.bottomsheetdialog
 
 import android.app.Dialog
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
@@ -142,6 +143,7 @@ class SearchBottomSheetDialog : BaseBottomSheetDialog(){
 
     private fun showLoading(){
         dialogView.search_sheet_progress_bar.visibility = View.VISIBLE
+        dialogView.search_sheet_recycler_view.visibility = View.INVISIBLE
         dialogView.search_sheet_info.visibility = View.INVISIBLE
     }
 

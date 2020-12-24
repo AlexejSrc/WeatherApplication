@@ -1,5 +1,6 @@
 package com.example.weatherapplication.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -13,11 +14,8 @@ import com.example.weatherapplication.model.room.WeatherInCityEntity
 import com.example.weatherapplication.view.fragment.WeatherDisplayFragmentStates
 import com.example.weatherapplication.view.fragment.bottomsheetdialog.FavouritesBottomSheetStates
 import com.example.weatherapplication.view.fragment.bottomsheetdialog.SearchBottomSheetStates
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.*
 import kotlinx.coroutines.Dispatchers.IO
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class CurrentWeatherViewModel : ViewModel(){
@@ -178,47 +176,83 @@ class CurrentWeatherViewModel : ViewModel(){
     }
 
     private var searchFor = ""
-    fun getQueryWithDelay(query: String, delayTime: Long = 700, minChars: Int = 4){
+    fun getQueryWithDelay(query: String, delayTime: Long = 700, minChars: Int = 4) = viewModelScope.launch(IO) {
         if (query.length >= minChars) {
-            val searchText = query.trim()
-            if (searchText == searchFor) return
-            searchFor = searchText
-            viewModelScope.launch(Dispatchers.Default) {
-                delay(delayTime/2)  //debounce timeOut
-                weatherAfterQueryStateAction.postValue(SearchBottomSheetStates.Loading)
-                delay(delayTime/2)
-                if (searchText != searchFor) return@launch
-                getNewQueryFromRetrofit(searchText)
+            searchFor = query
+            delay(delayTime/2)  //debounce timeOut
+            setLoadingState()
+            delay(delayTime/2)
+            if (query != searchFor) {
+                if (searchFor.length<minChars){
+                    setDefaultSearchState()
+                }
+                return@launch
             }
+            getNewQueryFromRetrofit(query)
         }
         else{
-            weatherAfterQueryList.postValue(SearchBottomSheetStates.DefaultState)
-            //clearSearchData()
+            searchFor = ""
+            setDefaultSearchState()
+            withContext(Dispatchers.Main){
+                clearSearchData()
+            }
         }
     }
 
-    private fun getNewQueryFromRetrofit(query: String){
-        viewModelScope.launch(IO) {
-            val items = repository.getCitiesByQuery(query)
-            if (items?.isEmpty()==true){
-                weatherAfterQueryStateAction.postValue(null)
-                weatherAfterQueryList.postValue(SearchBottomSheetStates.NoData)
-                return@launch
-            }
-            items
-                ?.map { SearchAdapterItem(it.name, it.countryCode, itemInDatabase(it)) }
-                ?.distinct()
-                ?.let { weatherAfterQueryList.postValue(SearchBottomSheetStates.GotResults(it)) }
-                ?:let {
-                    weatherAfterQueryList.postValue(SearchBottomSheetStates.NoConnection)
-                    //clearSearchData()
-                }
-            weatherAfterQueryStateAction.postValue(null)
+    private suspend fun getNewQueryFromRetrofit(query: String){
+        val items = repository.getCitiesByQuery(query)
+        if (items?.isEmpty()==true){
+            setNoDataSearchState()
+            return
         }
+        items
+            ?.map { SearchAdapterItem(it.name, it.countryCode, itemInDatabase(it)) }
+            ?.distinct()
+            ?.let {
+                withContext(Dispatchers.Main){
+                    if (searchFor.isNotEmpty()) setResultSearchState(it)
+                    else setDefaultSearchState()
+                }
+            }
+            ?: setNoConnectionSearchState()
     }
 
     fun clearSearchData(){
         weatherAfterQueryList.value = SearchBottomSheetStates.DefaultState
+    }
+
+    private suspend fun setLoadingState(){
+        withContext(Dispatchers.Main){
+            weatherAfterQueryStateAction.value = SearchBottomSheetStates.Loading
+        }
+    }
+
+    private suspend fun setNoDataSearchState(){
+        withContext(Dispatchers.Main){
+            weatherAfterQueryStateAction.value = null
+            weatherAfterQueryList.value = SearchBottomSheetStates.NoData
+        }
+    }
+
+    private suspend fun setDefaultSearchState(){
+        withContext(Dispatchers.Main){
+            weatherAfterQueryStateAction.value = null
+            weatherAfterQueryList.value = SearchBottomSheetStates.DefaultState
+        }
+    }
+
+    private suspend fun setNoConnectionSearchState(){
+        withContext(Dispatchers.Main){
+            weatherAfterQueryStateAction.value = null
+            weatherAfterQueryList.value = SearchBottomSheetStates.NoConnection
+        }
+    }
+
+    private suspend fun setResultSearchState(list: List<SearchAdapterItem>){
+        withContext(Dispatchers.Main){
+            weatherAfterQueryStateAction.value = null
+            weatherAfterQueryList.value = SearchBottomSheetStates.GotResults(list)
+        }
     }
 
     private fun itemInDatabase(item: CityDataItem): Boolean{
