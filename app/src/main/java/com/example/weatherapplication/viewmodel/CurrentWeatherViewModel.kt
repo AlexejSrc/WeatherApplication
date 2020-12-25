@@ -63,7 +63,7 @@ class CurrentWeatherViewModel : ViewModel(){
                     currentWeatherState.postValue(WeatherDisplayFragmentStates.GotElement(it))
                 }
             } ?: let {
-                if (notTheSameItem(item)){
+                if (notTheSameItemOrInitialState(item)){
                     currentWeatherState.postValue(WeatherDisplayFragmentStates.NoConnection)
                 }
             }
@@ -79,7 +79,8 @@ class CurrentWeatherViewModel : ViewModel(){
         }
     }
 
-    fun notTheSameItem(item: CityDataItem): Boolean{
+    fun notTheSameItemOrInitialState(item: CityDataItem): Boolean{
+        if (currentWeatherState.value is WeatherDisplayFragmentStates.InitialState) {return true}
         return try{
             val currentItem = currentWeatherState.value as WeatherDisplayFragmentStates.GotElement
             item.name != currentItem.weatherInCityEntity.city || item.countryCode != currentItem.weatherInCityEntity.countryCode
